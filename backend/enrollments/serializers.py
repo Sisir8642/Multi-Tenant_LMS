@@ -2,7 +2,9 @@ from rest_framework import serializers
 from .models import Enrollment
 
 class EnrollmentSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Enrollment
-        fields = '__all__'
-        read_only_fields = ['tenant']
+        fields = ['id', 'student', 'course', 'tenant', 'enrolled_at']
+
+        read_only_fields = ['student', 'tenant', 'enrolled_at']

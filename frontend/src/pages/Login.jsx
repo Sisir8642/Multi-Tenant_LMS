@@ -49,7 +49,6 @@ function Login() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-6 dark:bg-[#151519] bg-gray-500">
 
-      {/* Login Card */}
       <Card className="w-full max-w-md p-6 shadow-md bg-[#212128] text-white">
         <CardHeader>
           <CardTitle className="text-2xl text-center">Login</CardTitle>
@@ -61,7 +60,6 @@ function Login() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* Username */}
             <div>
               <Label>Username</Label>
               <Input
@@ -74,7 +72,6 @@ function Login() {
               />
             </div>
 
-            {/* Password */}
             <div>
               <Label>Password</Label>
               <Input
@@ -87,13 +84,11 @@ function Login() {
               />
             </div>
 
-            {/* Error */}
             {error && (
               <p className="text-red-500 text-sm text-center">{error}</p>
             )}
 
-            {/* Button */}
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button type="submit" className="w-full bg-gray-600 hover:bg-gray-700 cursor-pointer" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <CgSpinner className="animate-spin h-5 w-5 mr-2" />
@@ -109,15 +104,14 @@ function Login() {
         <CardFooter className="text-center">
           <p className="text-sm text-gray-400">
             Don&apos;t have an account?{" "}
-            <Link to="/register" className="text-blue-500 hover:underline">
+            <Link to="/register" className="text-blue-500 hover:underline cursor-pointer">
               Register
             </Link>
           </p>
         </CardFooter>
       </Card>
 
-      {/* Tester Credentials */}
-      {/* <Card className="w-full max-w-md p-4 shadow-md bg-[#212128] text-white">
+      <Card className="w-full max-w-md p-4 shadow-md bg-[#212128] text-white">
         <CardHeader>
           <CardTitle className="text-lg text-center">
             Tester Credentials
@@ -135,14 +129,26 @@ function Login() {
             <tbody>
               <tr>
                 <td className="p-2 border text-center">
-                  baburam@gmail.com
+                  baburam(superadmin)
                 </td>
                 <td className="p-2 border text-center">baburam</td>
+              </tr>
+              <tr>
+                <td className="p-2 border text-center">
+                  ram(student)
+                </td>
+                <td className="p-2 border text-center">Ram@123</td>
+              </tr>
+              <tr>
+                <td className="p-2 border text-center">
+                  guru(teacher)
+                </td>
+                <td className="p-2 border text-center">Guru@123</td>
               </tr>
             </tbody>
           </table>
         </CardContent>
-      </Card> */}
+      </Card>
 
     </div>
   );

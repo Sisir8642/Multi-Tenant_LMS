@@ -65,7 +65,6 @@ function Register() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
 
-            {/* Username */}
             <div>
               <Label>Username</Label>
               <Input
@@ -78,7 +77,6 @@ function Register() {
               />
             </div>
 
-            {/* Password */}
             <div>
               <Label>Password</Label>
               <Input
@@ -91,7 +89,6 @@ function Register() {
               />
             </div>
 
-            {/* Role */}
             <div>
               <Label>Role</Label>
               <select
@@ -105,7 +102,6 @@ function Register() {
               </select>
             </div>
 
-            {/* Tenant Name */}
             <div>
               <Label>Tenant Name</Label>
               <Input
@@ -118,15 +114,13 @@ function Register() {
               />
             </div>
 
-            {/* Error */}
             {error && (
               <p className="text-red-500 text-sm text-center">{error}</p>
             )}
 
-            {/* Button */}
             <Button
               type="submit"
-              className="w-full"
+              className="w-full bg-gray-600 hover:bg-gray-700 cursor-pointer"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -140,7 +134,6 @@ function Register() {
             </Button>
           </form>
 
-          {/* Login link */}
           <div className="mt-4 text-center text-sm text-gray-400">
             Already have an account?{" "}
             <Link

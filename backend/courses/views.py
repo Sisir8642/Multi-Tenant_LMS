@@ -21,9 +21,9 @@ class CourseViewSet(viewsets.ModelViewSet):
             return Course.objects.filter(teacher=user)
 
         if user.role == 'student':
-            return Course.objects.filter(enrollment__student=user)
+            # return Course.objects.filter(enrollment__student=user)
 
-        return Course.objects.filter(tenant=user.tenant)
+            return Course.objects.filter(tenant=user.tenant)
 
 
     def perform_create(self, serializer):
