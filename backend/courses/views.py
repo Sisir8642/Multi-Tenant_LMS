@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from .models import Course
 from .serializers import CourseSerializer
-from .permission import IsTeacher
 from rest_framework.permissions import IsAuthenticated
+from users.permissions import IsTeacher, IsSuperAdmin
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -11,14 +11,19 @@ class CourseViewSet(viewsets.ModelViewSet):
     
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            if self.request.user.role == "superadmin":
+                return [IsAuthenticated()]
             return [IsTeacher()]
-        return super().get_permissions() #fallback
+        return super().get_permissions()
 
     def get_queryset(self):
         user = self.request.user
+        
+        if user.role == 'superadmin':
+            return Course.objects.all()
 
         if user.role == 'teacher':
-            return Course.objects.filter(teacher=user)
+            return Course.objects.filter(teacher=user, tenant=user.tenant)
 
         if user.role == 'student':
             # return Course.objects.filter(enrollment__student=user)

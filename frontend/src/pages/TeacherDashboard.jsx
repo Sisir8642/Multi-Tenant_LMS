@@ -7,14 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
 
-function TeacherDashboard({ showStudents = false }) {
+function TeacherDashboard({ activeTab = "dashboard" }) {
   const [courses, setCourses] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
-  const [showForm, setShowForm] = useState(false); 
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetchCourses();
@@ -25,7 +25,7 @@ function TeacherDashboard({ showStudents = false }) {
       const res = await API.get("/courses/");
       setCourses(res.data);
     } catch (err) {
-      console.log(err);
+      console.log("FETCH ERROR:", err.response?.data || err.message);
     }
   };
 
@@ -45,7 +45,7 @@ function TeacherDashboard({ showStudents = false }) {
 
       setTitle("");
       setDescription("");
-      setShowForm(false); 
+      setShowForm(false);
       fetchCourses();
     } catch (err) {
       console.log("CREATE ERROR:", err.response?.data);
@@ -53,86 +53,118 @@ function TeacherDashboard({ showStudents = false }) {
     }
   };
 
-  if (showStudents) {
+  if (activeTab === "dashboard") {
     return (
       <div>
-        <h1 className="text-2xl font-bold mb-4">
-          👥 Enrolled Students
+        <h1 className="text-2xl font-bold mb-2">
+          👨‍🏫 Teacher Dashboard
         </h1>
 
-        <div className="space-y-6">
-          {courses.map((c) => (
-            <div key={c.id} className="bg-[#212128] p-4 rounded">
-              <h2 className="font-bold mb-2">{c.title}</h2>
+        <p className="text-gray-400">
+          Manage your courses and students
+        </p>
 
-              {c.enrolled_students?.length > 0 ? (
-                <ul className="text-sm text-gray-300">
-                  {c.enrolled_students.map((s) => (
-                    <li key={s.id}>• {s.username}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-gray-500 text-sm">
-                  No students enrolled
-                </p>
+        <div className="mt-6 grid grid-cols-2 gap-4">
+          <Card className="bg-[#212128]">
+            <CardHeader>
+              <CardTitle>Total Courses</CardTitle>
+            </CardHeader>
+            <CardContent>{courses.length}</CardContent>
+          </Card>
+
+          <Card className="bg-[#212128]">
+            <CardHeader>
+              <CardTitle>Total Students</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {courses.reduce(
+                (acc, c) => acc + (c.enrolled_students?.length || 0),
+                0
               )}
-            </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab === "courses") {
+    return (
+      <div>
+        <h1 className="text-xl font-bold mb-4">
+          📘 My Courses
+        </h1>
+
+        <Button onClick={() => setShowForm(!showForm)}>
+          {showForm ? "Cancel" : "Create Course"}
+        </Button>
+
+        {showForm && (
+          <form
+            onSubmit={createCourse}
+            className="mt-4 mb-6 space-y-2"
+          >
+            <input
+              className="p-2 w-full bg-[#2a2a35] text-white border rounded"
+              placeholder="Course title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+
+            <input
+              className="p-2 w-full bg-[#2a2a35] text-white border rounded"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+
+            <Button
+              type="submit"
+              className="bg-green-700"
+            >
+              Create
+            </Button>
+          </form>
+        )}
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.map((c) => (
+            <Card key={c.id} className="bg-[#212128]">
+              <CardHeader>
+                <CardTitle>{c.title}</CardTitle>
+              </CardHeader>
+
+              <CardContent>
+                <p className="text-gray-400">
+                  {c.description}
+                </p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
     );
   }
 
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-2">
-        👨‍🏫 Welcome to Teacher Portal
-      </h1>
+  if (activeTab === "students") {
+    return (
+      <div>
+        <h1 className="text-xl font-bold mb-4">
+          👥 Enrolled Students
+        </h1>
 
-      <p className="text-gray-400 mb-6">
-        Create and manage your courses
-      </p>
-
-      <Button onClick={() => setShowForm(!showForm)}>
-        {showForm ? "Cancel" : "Create Course"}
-      </Button>
-
-      {showForm && (
-        <form onSubmit={createCourse} className="mt-4 mb-6 space-y-2">
-          <input
-  className="p-2 w-full bg-[#2a2a35] text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Course title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-
-          <input
-  className="p-2 w-full bg-[#2a2a35] text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-
-          <Button type="submit" className="border-2 bg-green-800 cursor-pointer">Submit</Button>
-        </form>
-      )}
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.map((c) => (
-          <Card key={c.id} className="bg-[#212128]">
-            <CardHeader>
-              <CardTitle>{c.title}</CardTitle>
-            </CardHeader>
-
-            <CardContent>
-              <p className="text-gray-400 mb-3">
-                {c.description}
-              </p>
-
-              <div>
-                <p className="text-sm font-semibold mb-2">
-                  👥 Enrolled Students:
-                </p>
+        {courses.length === 0 ? (
+          <p className="text-gray-400">No courses found</p>
+        ) : (
+          <div className="space-y-6">
+            {courses.map((c) => (
+              <div
+                key={c.id}
+                className="bg-[#212128] p-4 rounded"
+              >
+                <h2 className="font-bold mb-2">
+                  {c.title}
+                </h2>
 
                 {c.enrolled_students?.length > 0 ? (
                   <ul className="text-sm text-gray-300">
@@ -141,17 +173,19 @@ function TeacherDashboard({ showStudents = false }) {
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-500">
                     No students enrolled yet
                   </p>
                 )}
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            ))}
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  }
+
+  return null;
 }
 
 export default TeacherDashboard;

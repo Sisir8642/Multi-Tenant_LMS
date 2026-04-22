@@ -23,3 +23,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+
+class UserSerializer(serializers.ModelSerializer):
+    tenant_name = serializers.CharField(source='tenant.name', read_only=True)
+
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'role',
+            'tenant',
+            'tenant_name'
+        ]
