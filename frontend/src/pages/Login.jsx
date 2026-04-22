@@ -135,15 +135,15 @@ function Login() {
               </tr>
               <tr>
                 <td className="p-2 border text-center">
-                  ram(student)
+                  hari(student)
                 </td>
-                <td className="p-2 border text-center">Ram@123</td>
+                <td className="p-2 border text-center">Hari@123</td>
               </tr>
               <tr>
                 <td className="p-2 border text-center">
-                  guru(teacher)
+                  sanat(teacher)
                 </td>
-                <td className="p-2 border text-center">Guru@123</td>
+                <td className="p-2 border text-center">Sanat@123</td>
               </tr>
             </tbody>
           </table>

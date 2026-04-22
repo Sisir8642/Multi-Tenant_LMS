@@ -1,12 +1,13 @@
 #  Multi-Tenant Learning Management System (LMS)
 
 ##  Live Demo
+  👉 https://multi-tenant-lms.netlify.app
 
-- 🌐 Frontend (Netlify):  
-  👉 ...
+## 🌐 Frontend (Netlify):  
+  👉  https://multi-tenant-lms.netlify.app
 
-- ⚙️ Backend (Render):  
-  👉 ...
+## ⚙️ Backend (Render):  
+  👉 https://multi-tenant-lms-64v0.onrender.com
 
 ---
 
@@ -106,7 +107,7 @@ Each tenant operates independently, ensuring secure and scalable data separation
 
 ## Setup Instructions
 
-git clone <lms-repo-url>
+git clone <https://github.com/Sisir8642/Multi-Tenant_LMS.git>
 cd backend
 
 python -m venv venv
